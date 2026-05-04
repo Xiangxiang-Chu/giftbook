@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>礼尚往来 - 安装引导</title>
+  <title>礼尚往来 · 不必记住</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -18,27 +18,36 @@
       box-shadow: 0 12px 28px rgba(0,0,0,0.06);
     }
     .app-icon { font-size: 64px; margin-bottom: 16px; text-align: center; }
-    .app-name { font-size: 24px; font-weight: 700; margin-bottom: 8px; background: linear-gradient(135deg, #5b7b94, #7a9eb1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; }
-    .subtitle { color: #86868b; font-size: 14px; margin-bottom: 28px; text-align: center; }
+    .app-name { 
+      font-size: 26px; font-weight: 700; margin-bottom: 8px; 
+      background: linear-gradient(135deg, #5b7b94, #7a9eb1); 
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+      text-align: center; 
+    }
+    .subtitle { color: #86868b; font-size: 15px; margin-bottom: 28px; text-align: center; }
 
-    /* 功能介绍区 */
     .features { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
     .feature-card {
       background: #f9f9fb; border-radius: 16px; padding: 16px 12px; text-align: center;
+      transition: transform 0.2s;
     }
+    .feature-card:hover { transform: translateY(-2px); }
     .feature-card .icon { font-size: 32px; margin-bottom: 8px; }
     .feature-card .title { font-size: 14px; font-weight: 700; margin-bottom: 4px; color: #1d1d1f; }
     .feature-card .desc { font-size: 11px; color: #86868b; line-height: 1.4; }
 
-    /* 安装步骤 */
     .section-title { font-size: 17px; font-weight: 700; margin-bottom: 12px; color: #1d1d1f; text-align: left; }
     .step { background: #f9f9fb; border-radius: 16px; padding: 16px; margin-bottom: 10px; text-align: left; display: flex; gap: 12px; align-items: flex-start; }
     .step-number { background: #5b7b94; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; }
     .step-content h4 { font-size: 14px; margin-bottom: 4px; color: #1d1d1f; }
     .step-content p { font-size: 13px; color: #86868b; line-height: 1.5; }
 
-    .safe-notice { background: #fff3cd; border-radius: 12px; padding: 12px 16px; margin: 16px 0; text-align: left; font-size: 13px; color: #856404; line-height: 1.6; }
-    .safe-notice strong { display: block; margin-bottom: 4px; }
+    .safe-notice { 
+      background: #eef6f2; border-radius: 12px; padding: 14px 16px; margin: 16px 0; 
+      text-align: left; font-size: 13px; line-height: 1.6;
+      border-left: 3px solid #5a8a6a;
+    }
+    .safe-notice strong { display: block; margin-bottom: 4px; color: #2a4038; }
 
     .btn-download {
       display: block; width: 100%; text-align: center;
@@ -46,6 +55,7 @@
       color: white; border: none; padding: 16px; border-radius: 16px;
       font-size: 17px; font-weight: 700; cursor: pointer; margin-top: 20px;
       text-decoration: none; box-shadow: 0 8px 20px rgba(91,123,148,0.3);
+      transition: opacity 0.2s, transform 0.2s;
     }
     .btn-download:active { opacity: 0.9; transform: scale(0.98); }
     .footer { margin-top: 20px; font-size: 12px; color: #b0b0b8; text-align: center; }
@@ -54,41 +64,41 @@
 <body>
   <div class="container">
     <div class="app-icon">🎋</div>
-    <div class="app-name">礼尚往来</div>
-    <div class="subtitle">轻松优雅地管理人情往来</div>
+    <div class="app-name">礼尚往来 · 不必记住</div>
+    <div class="subtitle">帮你记住那些，不好意思忘记的人情</div>
 
-    <!-- 核心功能 -->
-    <div class="section-title">✨ 核心功能</div>
+    <!-- 功能卡片 -->
+    <div class="section-title">✨ 你可以用它做这些</div>
     <div class="features">
       <div class="feature-card">
         <div class="icon">📝</div>
-        <div class="title">收支记录</div>
-        <div class="desc">快速记录每一次人情支出或收入</div>
+        <div class="title">随手记一笔</div>
+        <div class="desc">支出收入，几秒完成记录</div>
       </div>
       <div class="feature-card">
         <div class="icon">👤</div>
-        <div class="title">人物管理</div>
+        <div class="title">记住每个人</div>
         <div class="desc">按关系分组，一目了然</div>
       </div>
       <div class="feature-card">
         <div class="icon">📊</div>
-        <div class="title">统计图表</div>
-        <div class="desc">饼图、对比、月度趋势</div>
+        <div class="title">往来都清楚</div>
+        <div class="desc">饼图、趋势、收支对比</div>
       </div>
       <div class="feature-card">
         <div class="icon">🎨</div>
-        <div class="title">六款皮肤</div>
-        <div class="desc">月白、青岚、花朝等随心换</div>
+        <div class="title">你的审美</div>
+        <div class="desc">六款皮肤，随心切换</div>
       </div>
       <div class="feature-card">
         <div class="icon">📤</div>
-        <div class="title">导入导出</div>
-        <div class="desc">CSV数据备份与迁移</div>
+        <div class="title">数据你做主</div>
+        <div class="desc">CSV导入导出，备份无忧</div>
       </div>
       <div class="feature-card">
         <div class="icon">🔒</div>
-        <div class="title">隐私安全</div>
-        <div class="desc">数据本地保存，无需联网</div>
+        <div class="title">不联网不登录</div>
+        <div class="desc">只留在你自己的手机里</div>
       </div>
     </div>
 
@@ -98,7 +108,7 @@
       <div class="step-number">1</div>
       <div class="step-content">
         <h4>下载安装包</h4>
-        <p>点击下方“下载安装包”按钮，下载完成后点击安装。</p>
+        <p>点击下方按钮，下载完成后点击安装。</p>
       </div>
     </div>
 
@@ -106,7 +116,7 @@
       <div class="step-number">2</div>
       <div class="step-content">
         <h4>安全提示说明</h4>
-        <p>安装时手机可能提示“未备案应用”或“存在风险”，请放心点击“继续安装”。本软件为纯本地记账工具，数据只保存在手机内，不会收集任何个人信息。</p>
+        <p>安装时如果提示“未备案应用”或“风险提醒”，请放心点击<strong>继续安装</strong>。本软件为纯本地工具，不上传任何数据，绝对安全。</p>
       </div>
     </div>
 
@@ -114,17 +124,18 @@
       <div class="step-number">3</div>
       <div class="step-content">
         <h4>开始使用</h4>
-        <p>安装完成后，桌面会出现“礼尚往来”图标，点击即可开始记账。</p>
+        <p>安装完成后，桌面会出现“礼尚往来”图标，点击即可使用。</p>
       </div>
     </div>
 
     <div class="safe-notice">
-      <strong>🛡️ 隐私承诺</strong>
-      本应用为纯本地运行，无需联网，不注册账号，不上传任何数据。你的每一笔人情往来，只保存在你自己的手机里。
+      <strong>🛡️ 我们的承诺</strong>
+      不联网，不登录，只留在你自己的手机里。每一笔人情，都只属于你。
     </div>
 
+    <!-- 下载按钮 -->
     <a class="btn-download" href="礼尚往来.apk" download>📥 下载安装包</a>
-    <div class="footer">如有问题，请联系开发者</div>
+    <div class="footer">如有问题，请联系开发者 · 扫码或直接下载均可</div>
   </div>
 </body>
 </html>
