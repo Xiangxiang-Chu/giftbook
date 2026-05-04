@@ -1,0 +1,988 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <title>礼尚往来</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#5b7b94">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ========== 月白主题（默认·灰调） ========== */
+    :root {
+      --bg-body: #e8edf2;
+      --bg-container: #ffffff;
+      --bg-card: #f6f8fa;
+      --bg-input: #ffffff;
+      --text-primary: #2c3e50;
+      --text-secondary: #4a6274;
+      --text-label: #4a6274;
+      --text-muted: #7c8b9a;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+      --shadow-md: 0 12px 28px rgba(0,0,0,0.06);
+      --border-subtle: rgba(0,0,0,0.04);
+      --input-border: #e5e9ef;
+      --accent: #5b7b94;
+      --accent-light: #7a9eb1;
+      --out-color: #c37b6d;
+      --in-color: #5f9b8c;
+      --tag-relation-bg: #e9f0f5;
+      --tag-relation-text: #2c5a73;
+      --tag-out-bg: #fbe8e4;
+      --tag-out-text: #b65c4a;
+      --tag-in-bg: #dff0e8;
+      --tag-in-text: #3d7563;
+      --divider: rgba(0,0,0,0.03);
+    }
+
+    body[data-theme="dark"] {
+      --bg-body: #151a1f;
+      --bg-container: rgba(25,30,35,0.9);
+      --bg-card: rgba(35,40,45,0.8);
+      --bg-input: rgba(45,50,55,0.9);
+      --text-primary: #e0e5ea;
+      --text-secondary: #c0c7cf;
+      --text-label: #b0b8c1;
+      --text-muted: #8b929a;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+      --shadow-md: 0 12px 28px rgba(0,0,0,0.4);
+      --border-subtle: rgba(255,255,255,0.06);
+      --input-border: rgba(255,255,255,0.08);
+      --accent: #7a9eb1;
+      --accent-light: #9bb7c7;
+      --tag-relation-bg: #2a3a48;
+      --tag-relation-text: #a0c4da;
+      --tag-out-bg: #3e2c2a;
+      --tag-out-text: #dba89e;
+      --tag-in-bg: #2a3e38;
+      --tag-in-text: #9bc4b3;
+      --divider: rgba(255,255,255,0.06);
+    }
+
+    body[data-theme="forest"] {
+      --bg-body: #eef5f2;
+      --bg-container: #ffffff;
+      --bg-card: #f4faf6;
+      --bg-input: #ffffff;
+      --text-primary: #2a4038;
+      --text-secondary: #4a6058;
+      --text-label: #4a6058;
+      --text-muted: #7b8f85;
+      --shadow-sm: 0 2px 8px rgba(80,120,100,0.08);
+      --shadow-md: 0 12px 28px rgba(80,120,100,0.1);
+      --border-subtle: rgba(80,120,100,0.06);
+      --input-border: #d0e0d8;
+      --accent: #5a8a6a;
+      --accent-light: #7aaa85;
+      --out-color: #b8645a;
+      --in-color: #5a8a6a;
+      --tag-relation-bg: #dff0e8;
+      --tag-relation-text: #3d6b4f;
+      --tag-out-bg: #fce8e5;
+      --tag-out-text: #b85a50;
+      --tag-in-bg: #dff0e5;
+      --tag-in-text: #3d7553;
+      --divider: rgba(80,120,100,0.06);
+    }
+
+    body[data-theme="blossom"] {
+      --bg-body: #fdf4f5;
+      --bg-container: #ffffff;
+      --bg-card: #fff7f8;
+      --bg-input: #ffffff;
+      --text-primary: #4d3840;
+      --text-secondary: #6a5258;
+      --text-label: #6a5258;
+      --text-muted: #9b848a;
+      --shadow-sm: 0 2px 8px rgba(180,130,140,0.1);
+      --shadow-md: 0 12px 28px rgba(180,130,140,0.12);
+      --border-subtle: rgba(180,130,140,0.08);
+      --input-border: #e8d5d8;
+      --accent: #c47a8a;
+      --accent-light: #dba0a8;
+      --out-color: #c4706a;
+      --in-color: #7a9e7a;
+      --tag-relation-bg: #f5e5e8;
+      --tag-relation-text: #7a4a55;
+      --tag-out-bg: #fce8e6;
+      --tag-out-text: #b8665a;
+      --tag-in-bg: #e5f2e8;
+      --tag-in-text: #4d7a55;
+      --divider: rgba(180,130,140,0.08);
+    }
+
+    body[data-theme="caramel"] {
+      --bg-body: #f2ece4;
+      --bg-container: #ffffff;
+      --bg-card: #f9f4ec;
+      --bg-input: #ffffff;
+      --text-primary: #3e3028;
+      --text-secondary: #5e4c3e;
+      --text-label: #5e4c3e;
+      --text-muted: #8c7a68;
+      --shadow-sm: 0 2px 8px rgba(140,110,80,0.1);
+      --shadow-md: 0 12px 28px rgba(140,110,80,0.12);
+      --border-subtle: rgba(140,110,80,0.08);
+      --input-border: #e0d3c2;
+      --accent: #a0785a;
+      --accent-light: #c09a7a;
+      --out-color: #b0705a;
+      --in-color: #6b9e7a;
+      --tag-relation-bg: #efe0d2;
+      --tag-relation-text: #6e4c38;
+      --tag-out-bg: #fae5e0;
+      --tag-out-text: #b06555;
+      --tag-in-bg: #e0f0e5;
+      --tag-in-text: #4a7655;
+      --divider: rgba(140,110,80,0.08);
+    }
+
+    body[data-theme="purple"] {
+      --bg-body: #f4f0f8;
+      --bg-container: #ffffff;
+      --bg-card: #f9f5fc;
+      --bg-input: #ffffff;
+      --text-primary: #3a3347;
+      --text-secondary: #5a5268;
+      --text-label: #5a5268;
+      --text-muted: #8b8298;
+      --shadow-sm: 0 2px 8px rgba(130,120,150,0.1);
+      --shadow-md: 0 12px 28px rgba(130,120,150,0.12);
+      --border-subtle: rgba(130,120,150,0.08);
+      --input-border: #e0dae8;
+      --accent: #8b7aaa;
+      --accent-light: #a89bcc;
+      --out-color: #b8706a;
+      --in-color: #7a9e7a;
+      --tag-relation-bg: #ede5f5;
+      --tag-relation-text: #5e4a7a;
+      --tag-out-bg: #fce8e6;
+      --tag-out-text: #b8665a;
+      --tag-in-bg: #e5f2e8;
+      --tag-in-text: #4d7a55;
+      --divider: rgba(130,120,150,0.08);
+    }
+
+    body[data-theme="sky"] {
+      --bg-body: #eaf2fa;
+      --bg-container: #ffffff;
+      --bg-card: #f2f7fc;
+      --bg-input: #ffffff;
+      --text-primary: #2a3a4d;
+      --text-secondary: #4a5d74;
+      --text-label: #4a5d74;
+      --text-muted: #7a8b9e;
+      --shadow-sm: 0 2px 8px rgba(80,120,180,0.08);
+      --shadow-md: 0 12px 28px rgba(80,120,180,0.1);
+      --border-subtle: rgba(80,120,180,0.06);
+      --input-border: #d4e0f0;
+      --accent: #4a90d9;
+      --accent-light: #7ab5ef;
+      --out-color: #c37b6d;
+      --in-color: #5f9b8c;
+      --tag-relation-bg: #dceaef;
+      --tag-relation-text: #2a5270;
+      --tag-out-bg: #fbe8e4;
+      --tag-out-text: #b65c4a;
+      --tag-in-bg: #dff0e8;
+      --tag-in-text: #3d7563;
+      --divider: rgba(80,120,180,0.06);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      background: var(--bg-body);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 24px 16px;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .app-container {
+      max-width: 440px;
+      width: 100%;
+      background: var(--bg-container);
+      border-radius: 32px;
+      padding: 24px 20px 32px;
+      box-shadow: var(--shadow-md);
+      transition: background 0.3s, box-shadow 0.3s;
+      position: relative;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    .header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 2px;
+    }
+    .header-controls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .theme-toggle,
+    .style-select-btn {
+      background: var(--bg-card);
+      backdrop-filter: blur(8px);
+      border: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      font-size: 22px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-sm);
+      transition: background 0.3s, transform 0.2s;
+      color: var(--text-primary);
+    }
+    .style-select-btn { font-size: 20px; }
+    .theme-toggle:active, .style-select-btn:active { transform: scale(0.9); }
+
+    .style-panel {
+      position: absolute;
+      top: 60px;
+      right: 20px;
+      background: var(--bg-container);
+      border-radius: 20px;
+      padding: 12px;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+      z-index: 50;
+      display: none;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      border: 1px solid var(--input-border);
+    }
+    .style-panel.show { display: grid; }
+    .style-option {
+      width: 56px; height: 56px;
+      border-radius: 16px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: border 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: white;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    }
+    .style-option.active {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px var(--accent-light);
+    }
+
+    .search-bar { margin-bottom: 20px; }
+    .search-bar input {
+      width: 100%; padding: 14px 18px;
+      border: 1px solid var(--input-border);
+      border-radius: 20px; font-size: 16px;
+      background: var(--bg-input);
+      box-shadow: var(--shadow-sm);
+      color: var(--text-primary);
+      transition: all 0.25s ease;
+    }
+    .search-bar input:focus { outline: none; border-color: var(--accent); box-shadow: 0 4px 16px rgba(91,123,148,0.15); }
+    .search-bar input::placeholder { color: var(--text-muted); }
+
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+    .stat-card { background: var(--bg-card); border-radius: 20px; padding: 18px 8px 14px; text-align: center; box-shadow: var(--shadow-sm); transition: transform 0.2s; }
+    .stat-card:active { transform: translateY(1px); }
+    .stat-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .stat-value { font-size: 22px; font-weight: 700; }
+    .stat-card.out .stat-value { color: var(--out-color); }
+    .stat-card.in .stat-value { color: var(--in-color); }
+    .stat-card.balance .stat-value { color: var(--text-primary); }
+
+    .chart-card { background: var(--bg-card); border-radius: 24px; padding: 20px 16px 16px; margin-bottom: 20px; box-shadow: var(--shadow-sm); }
+    .chart-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; gap: 12px; flex-wrap: wrap; }
+    .chart-year-select { padding: 8px 14px; border-radius: 16px; border: 1px solid var(--input-border); font-size: 14px; background: var(--bg-input); color: var(--text-primary); box-shadow: var(--shadow-sm); outline: none; }
+    .chart-type-tabs { display: flex; gap: 6px; }
+    .chart-type-tab { background: var(--bg-input); border: 1px solid var(--input-border); padding: 7px 14px; border-radius: 18px; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--text-secondary); transition: all 0.2s; box-shadow: var(--shadow-sm); }
+    .chart-type-tab.active { background: var(--accent); color: white; border-color: var(--accent); }
+    .chart-dim-tabs { display: flex; gap: 6px; margin-bottom: 14px; justify-content: center; }
+    .chart-dim-tab { background: var(--bg-input); border: 1px solid var(--input-border); padding: 6px 14px; border-radius: 18px; font-size: 13px; cursor: pointer; color: var(--text-secondary); }
+    .chart-dim-tab.active { background: #dce9f0; color: var(--accent); font-weight: 600; border-color: var(--accent); }
+    .chart-container { position: relative; width: 100%; max-width: 260px; aspect-ratio: 1 / 1; margin: 0 auto; }
+    .chart-container canvas { width: 100% !important; height: 100% !important; }
+
+    .actions-row { display: flex; gap: 12px; margin-bottom: 24px; }
+    .btn-outline { flex: 1; background: var(--bg-input); border: 1px solid var(--input-border); padding: 12px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; color: var(--text-secondary); box-shadow: var(--shadow-sm); transition: 0.2s; }
+    .btn-outline:active { background: var(--bg-card); }
+    .btn-danger { background: #fce8e6; border-color: #f5c6cb; color: #c92a2a; }
+    .btn-danger:active { background: #f8d7da; }
+
+    .form-card { background: var(--bg-card); border-radius: 24px; padding: 20px; margin-bottom: 24px; box-shadow: var(--shadow-sm); }
+    .form-group { margin-bottom: 20px; position: relative; }
+    .form-group:last-child { margin-bottom: 0; }
+    label { display: block; font-size: 14px; font-weight: 600; color: var(--text-label); margin-bottom: 8px; }
+    input, select, textarea { width: 100%; padding: 13px 16px; border: 1px solid var(--input-border); border-radius: 18px; font-size: 16px; background: var(--bg-input); box-shadow: var(--shadow-sm); color: var(--text-primary); outline: none; -webkit-appearance: none; transition: border 0.2s, box-shadow 0.2s; }
+    input:focus, select:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 4px 16px rgba(91,123,148,0.15); }
+    .row { display: flex; gap: 12px; }
+    .row .form-group { flex: 1; margin-bottom: 0; }
+
+    #inputNameFormGroup,
+    #inputDateFormGroup { margin-top: 20px; }
+
+    .quick-amounts { display: flex; gap: 8px; margin-top: 8px; }
+    .quick-amount { flex: 1; background: var(--bg-input); border: 1px solid var(--input-border); padding: 8px 0; border-radius: 14px; font-size: 14px; font-weight: 600; color: var(--text-secondary); cursor: pointer; box-shadow: var(--shadow-sm); transition: 0.2s; }
+    .quick-amount:active { background: var(--accent); color: white; }
+
+    .btn-primary { width: 100%; background: linear-gradient(135deg, var(--accent), var(--accent-light)); color: white; border: none; padding: 15px; border-radius: 20px; font-size: 17px; font-weight: 700; cursor: pointer; margin-top: 14px; box-shadow: 0 8px 20px rgba(91,123,148,0.3); transition: 0.2s; }
+    .btn-primary:active { transform: scale(0.97); }
+
+    .tag-manage-btn { background: none; border: none; color: var(--accent); font-size: 14px; cursor: pointer; margin-left: 8px; font-weight: 600; }
+
+    .suggest-list { position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: var(--bg-input); border-radius: 18px; max-height: 180px; overflow-y: auto; z-index: 10; display: none; box-shadow: 0 12px 28px rgba(0,0,0,0.1); padding: 6px 0; border: 1px solid var(--input-border); }
+    .suggest-list.show { display: block; }
+    .suggest-item { padding: 12px 18px; border-bottom: 1px solid var(--divider); cursor: pointer; display: flex; justify-content: space-between; color: var(--text-primary); }
+    .suggest-item:hover { background: rgba(0,0,0,0.02); }
+    .suggest-relation { font-size: 13px; color: var(--text-muted); }
+
+    .list-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+    .list-title { font-size: 15px; font-weight: 700; color: var(--text-secondary); display: flex; align-items: center; gap: 8px; }
+    .list-title::before { content: ''; display: inline-block; width: 4px; height: 18px; background: var(--accent); border-radius: 2px; }
+    .list-controls { display: flex; gap: 8px; align-items: center; }
+    .list-controls select { padding: 6px 10px; border-radius: 14px; border: 1px solid var(--input-border); background: var(--bg-input); font-size: 13px; color: var(--text-primary); outline: none; }
+    .sort-btn { background: var(--bg-input); border: 1px solid var(--input-border); padding: 6px 12px; border-radius: 14px; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--text-secondary); white-space: nowrap; transition: 0.2s; }
+    .sort-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+    .record-item { background: var(--bg-input); border: 1px solid var(--input-border); border-radius: 20px; padding: 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 14px; box-shadow: var(--shadow-sm); transition: background 0.2s; }
+    .record-icon { font-size: 32px; }
+    .record-main { flex: 1; }
+    .record-name-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap; }
+    .record-name { font-weight: 700; font-size: 17px; cursor: pointer; color: var(--accent); text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 2px; }
+    .tag { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 600; }
+    .tag-relation { background: var(--tag-relation-bg); color: var(--tag-relation-text); }
+    .tag-out { background: var(--tag-out-bg); color: var(--tag-out-text); }
+    .tag-in { background: var(--tag-in-bg); color: var(--tag-in-text); }
+    .record-amount { font-weight: 700; font-size: 18px; white-space: nowrap; }
+    .record-amount.out { color: var(--out-color); }
+    .record-amount.in { color: var(--in-color); }
+    .record-meta { font-size: 13px; color: var(--text-muted); margin-top: 3px; display: flex; gap: 8px; flex-wrap: wrap; }
+    .record-actions { display: flex; gap: 6px; }
+    .record-edit, .record-delete { background: none; border: none; font-size: 18px; cursor: pointer; padding: 8px; border-radius: 50%; transition: 0.2s; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); }
+    .record-edit:active { background: rgba(90,130,150,0.1); color: var(--accent); }
+    .record-delete:active { background: rgba(200,100,100,0.1); color: #d36b5e; }
+    .empty-state { text-align: center; padding: 48px 20px; color: var(--text-muted); background: var(--bg-card); border-radius: 24px; }
+    .backup-hint { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 16px; padding: 8px; }
+
+    .filter-tag { display: inline-flex; align-items: center; gap: 4px; background: var(--accent); color: white; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; animation: fadeIn 0.3s; }
+    .filter-tag .clear-filter { font-size: 16px; line-height: 1; cursor: pointer; }
+    @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+
+    .confirm-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+    .confirm-overlay.active { opacity: 1; pointer-events: auto; }
+    .confirm-box { background: var(--bg-container); border-radius: 24px; padding: 24px; width: 90%; max-width: 320px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); text-align: center; }
+    .confirm-box p { margin-bottom: 20px; color: var(--text-primary); font-size: 15px; line-height: 1.5; }
+    .confirm-box .btn-row { display: flex; gap: 10px; }
+    .confirm-box .btn-cancel, .confirm-box .btn-confirm { flex: 1; padding: 12px; border-radius: 14px; font-weight: 600; font-size: 14px; cursor: pointer; }
+    .confirm-box .btn-cancel { background: var(--bg-input); border: 1px solid var(--input-border); color: var(--text-secondary); }
+    .confirm-box .btn-confirm { background: var(--accent); color: white; border: none; }
+    .confirm-box .btn-danger { background: #e57373; }
+
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+    .modal-overlay.active { opacity: 1; pointer-events: auto; }
+    .modal { background: var(--bg-container); border-radius: 28px; padding: 24px; width: 90%; max-width: 380px; max-height: 80vh; overflow-y: auto; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+    .modal h3 { margin-bottom: 16px; color: var(--text-primary); }
+    .modal .person-stats { display: flex; gap: 12px; margin-bottom: 16px; text-align: center; }
+    .modal .person-stat { flex: 1; background: var(--bg-card); border-radius: 16px; padding: 12px 6px; }
+    .modal .person-stat .label { font-size: 11px; color: var(--text-muted); }
+    .modal .person-stat .value { font-size: 18px; font-weight: 700; }
+    .modal .relation-edit-area { background: var(--bg-card); border-radius: 16px; padding: 12px; margin-bottom: 16px; display: flex; gap: 8px; align-items: center; }
+    .modal .relation-edit-area select { flex: 1; padding: 8px 12px; border-radius: 12px; border: 1px solid var(--input-border); background: var(--bg-input); color: var(--text-primary); }
+    .modal .relation-edit-area button { padding: 8px 16px; border-radius: 12px; background: var(--accent); color: white; border: none; font-weight: 600; cursor: pointer; }
+    .modal .mini-record { background: var(--bg-card); border-radius: 14px; padding: 10px 14px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
+    .modal .btn-row { display: flex; gap: 10px; margin-top: 16px; }
+    .modal .btn-cancel { flex: 1; background: var(--bg-input); border: 1px solid var(--input-border); padding: 12px; border-radius: 14px; font-weight: 600; color: var(--text-secondary); cursor: pointer; }
+    .modal .btn-save { flex: 1; background: var(--accent); color: white; border: none; padding: 12px; border-radius: 14px; font-weight: 600; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <div class="header">
+      <h1>🎋礼尚往来</h1>
+      <div class="header-controls">
+        <button class="style-select-btn" id="styleSelectBtn" title="选择主题风格">🎨</button>
+        <button class="theme-toggle" id="themeToggle" title="切换明暗模式">☀️</button>
+      </div>
+    </div>
+
+    <div class="style-panel" id="stylePanel">
+      <div class="style-option" data-theme="light" style="background: linear-gradient(135deg, #e8edf2, #5b7b94);">月白</div>
+      <div class="style-option" data-theme="forest" style="background: linear-gradient(135deg, #eef5f2, #5a8a6a);">青岚</div>
+      <div class="style-option" data-theme="blossom" style="background: linear-gradient(135deg, #fdf4f5, #c47a8a);">花朝</div>
+      <div class="style-option" data-theme="caramel" style="background: linear-gradient(135deg, #f2ece4, #a0785a);">焦糖</div>
+      <div class="style-option" data-theme="purple" style="background: linear-gradient(135deg, #f4f0f8, #8b7aaa);">暮紫</div>
+      <div class="style-option" data-theme="sky" style="background: linear-gradient(135deg, #eaf2fa, #4a90d9);">蔚蓝</div>
+    </div>
+
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="🔍 搜索姓名、备注...">
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card out"><div class="stat-label">总支出</div><div class="stat-value" id="totalOut">¥0</div></div>
+      <div class="stat-card in"><div class="stat-label">总收入</div><div class="stat-value" id="totalIn">¥0</div></div>
+      <div class="stat-card balance"><div class="stat-label">净额</div><div class="stat-value" id="totalBalance">¥0</div></div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-controls">
+        <select id="chartYear" class="chart-year-select"><option value="all">全部年份</option></select>
+        <div class="chart-type-tabs">
+          <span class="chart-type-tab active" data-type="out">支出</span>
+          <span class="chart-type-tab" data-type="in">收入</span>
+          <span class="chart-type-tab" data-type="compare">收支对比</span>
+          <span class="chart-type-tab" data-type="trend">趋势</span>
+        </div>
+      </div>
+      <div class="chart-dim-tabs" id="dimTabs">
+        <span class="chart-dim-tab active" data-dim="category">按分类</span>
+        <span class="chart-dim-tab" data-dim="relation">按关系</span>
+      </div>
+      <div class="chart-container"><canvas id="chartCanvas"></canvas></div>
+    </div>
+
+    <div class="actions-row">
+      <button class="btn-outline" id="exportBtn">📤 导出</button>
+      <button class="btn-outline" id="importBtn">📥 导入</button>
+      <button class="btn-outline btn-danger" id="clearBtn">🗑️ 清空</button>
+      <input type="file" id="importFile" accept=".csv" style="display:none;">
+    </div>
+
+    <div class="form-card">
+      <div style="display: flex; justify-content: flex-end; margin-bottom: 12px;">
+        <button class="tag-manage-btn" id="manageTagsBtn">⚙️ 自定义标签</button>
+      </div>
+      <div class="row">
+        <div class="form-group"><label>类型</label><select id="inputType"><option value="支出">支出</option><option value="收入">收入</option></select></div>
+        <div class="form-group"><label>关系</label><select id="inputRelation"></select></div>
+      </div>
+      <div class="form-group" id="inputNameFormGroup"><label>姓名</label><input type="text" id="inputName" placeholder="张三" autocomplete="off"><div id="suggestList" class="suggest-list"></div></div>
+      <div class="row">
+        <div class="form-group"><label>金额</label><input type="number" id="inputAmount" placeholder="500" min="0"><div class="quick-amounts"><button class="quick-amount" data-amount="200">200</button><button class="quick-amount" data-amount="500">500</button><button class="quick-amount" data-amount="1000">1000</button></div></div>
+        <div class="form-group"><label>分类</label><select id="inputCategory"></select></div>
+      </div>
+      <div class="form-group" id="inputDateFormGroup"><label>日期</label><input type="date" id="inputDate"></div>
+      <div class="form-group"><label>备注</label><textarea id="inputNote" rows="2" placeholder="选填"></textarea></div>
+      <button class="btn-primary" id="addBtn">记一笔</button>
+    </div>
+
+    <div class="list-header">
+      <div class="list-title" id="listTitle">全部记录</div>
+      <div class="list-controls">
+        <select id="relationFilter"><option value="">全部关系</option></select>
+        <button class="sort-btn active" id="sortDateBtn">时间 ⏬</button>
+        <button class="sort-btn" id="sortAmountBtn">金额 ⏬</button>
+      </div>
+    </div>
+    <div id="activeFilter" style="margin-bottom: 10px;"></div>
+    <div id="recordList" class="record-list"><div class="empty-state">记下第一笔人情吧</div></div>
+    <div class="backup-hint">💡 数据保存在浏览器本地，建议定期导出备份</div>
+  </div>
+
+  <div class="confirm-overlay" id="confirmOverlay">
+    <div class="confirm-box">
+      <p id="confirmText"></p>
+      <div class="btn-row">
+        <button class="btn-cancel" id="confirmCancel">取消</button>
+        <button class="btn-confirm" id="confirmOk">确定</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="editModal"><div class="modal"><h3>✏️ 编辑记录</h3><div class="row"><div class="form-group"><label>类型</label><select id="editType"></select></div><div class="form-group"><label>关系</label><select id="editRelation"></select></div></div><div class="form-group"><label>姓名</label><input type="text" id="editName"></div><div class="row"><div class="form-group"><label>金额</label><input type="number" id="editAmount"></div><div class="form-group"><label>分类</label><select id="editCategory"></select></div></div><div class="form-group"><label>日期</label><input type="date" id="editDate"></div><div class="form-group"><label>备注</label><textarea id="editNote" rows="2"></textarea></div><div class="btn-row"><button class="btn-cancel" id="cancelEdit">取消</button><button class="btn-save" id="saveEdit">保存</button></div></div></div>
+  <div class="modal-overlay" id="personModal"><div class="modal"><h3 id="personTitle">👤 人物往来</h3><div class="person-stats"><div class="person-stat"><div class="label">总支出</div><div class="value out" id="personOut">¥0</div></div><div class="person-stat"><div class="label">总收入</div><div class="value in" id="personIn">¥0</div></div><div class="person-stat"><div class="label">净额</div><div class="value" id="personBalance">¥0</div></div></div><div class="relation-edit-area"><span style="font-size:14px; color: var(--text-secondary); white-space: nowrap;">关系：</span><select id="personNewRelation"></select><button id="updatePersonRelation">更新全部</button></div><div id="personRecords"></div><button class="btn-cancel" id="closePersonBtn" style="width:100%; margin-top:12px;">关闭</button></div></div>
+  <div class="modal-overlay" id="tagsModal"><div class="modal"><h3>🏷️ 管理标签</h3><div style="margin-bottom: 16px;"><strong>分类</strong><div id="categoryTags" style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;"></div><div style="display: flex; gap: 8px; margin-top: 8px;"><input type="text" id="newCategory" placeholder="新分类" style="flex:1;"><button class="btn-outline" id="addCategoryBtn" style="padding: 8px;">添加</button></div></div><div><strong>关系</strong><div id="relationTags" style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;"></div><div style="display: flex; gap: 8px; margin-top: 8px;"><input type="text" id="newRelation" placeholder="新关系" style="flex:1;"><button class="btn-outline" id="addRelationBtn" style="padding: 8px;">添加</button></div></div><button class="btn-cancel" id="closeTagsBtn" style="width:100%; margin-top:16px;">关闭</button></div></div>
+
+  <script>
+    (function() {
+      const STORAGE_KEY = 'renqing_pro_records';
+      const SETTINGS_KEY = 'renqing_settings';
+      let records = [];
+      let searchQuery = '';
+      let chartType = 'out';
+      let chartDimension = 'category';
+      let chartYear = 'all';
+      let chartInstance = null;
+      let editIndex = -1;
+      let chartFilter = null;
+      let currentPersonName = '';
+      let sortBy = 'date';
+      let relationFilter = '';
+
+      let customCategories = [];
+      let customRelations = [];
+      const defaultCategories = ['结婚','生子','白事','生日','乔迁','过年红包','其他'];
+      const defaultRelations = ['亲戚','朋友','同事','同学','邻居','其他'];
+
+      const allThemes = ['light', 'dark', 'forest', 'blossom', 'caramel', 'purple', 'sky'];
+      const darkThemes = ['dark'];
+      let currentTheme = 'light';
+      let lastLightTheme = 'light';
+
+      function showConfirm(message, danger = false) {
+        return new Promise((resolve) => {
+          const overlay = document.getElementById('confirmOverlay');
+          const text = document.getElementById('confirmText');
+          const okBtn = document.getElementById('confirmOk');
+          const cancelBtn = document.getElementById('confirmCancel');
+          text.textContent = message;
+          okBtn.className = danger ? 'btn-confirm btn-danger' : 'btn-confirm';
+          okBtn.onclick = () => { overlay.classList.remove('active'); resolve(true); };
+          cancelBtn.onclick = () => { overlay.classList.remove('active'); resolve(false); };
+          overlay.classList.add('active');
+        });
+      }
+
+      function loadRecords() { const stored = localStorage.getItem(STORAGE_KEY); records = stored ? JSON.parse(stored) : []; }
+      function saveRecords() { localStorage.setItem(STORAGE_KEY, JSON.stringify(records)); }
+
+      function loadSettings() { const stored = localStorage.getItem(SETTINGS_KEY); if(stored){ const s = JSON.parse(stored); customCategories = s.categories||[]; customRelations = s.relations||[]; } }
+      function saveSettings() { localStorage.setItem(SETTINGS_KEY, JSON.stringify({ categories: customCategories, relations: customRelations })); }
+
+      function getAllCategories() { return [...new Set([...defaultCategories, ...customCategories])]; }
+      function getAllRelations() { return [...new Set([...defaultRelations, ...customRelations])]; }
+
+      function populateSelect(selectId, options, selectedVal) {
+        const select = document.getElementById(selectId); if(!select) return;
+        select.innerHTML = options.map(o => `<option value="${o}" ${o===selectedVal?'selected':''}>${o}</option>`).join('');
+      }
+      function refreshTagSelectors() {
+        populateSelect('inputCategory', getAllCategories()); populateSelect('inputRelation', getAllRelations());
+        populateSelect('editCategory', getAllCategories()); populateSelect('editRelation', getAllRelations());
+        populateSelect('personNewRelation', getAllRelations());
+        const relFilter = document.getElementById('relationFilter');
+        if (relFilter) {
+          const currentVal = relFilter.value;
+          relFilter.innerHTML = '<option value="">全部关系</option>' + getAllRelations().map(r => `<option value="${r}">${r}</option>`).join('');
+          relFilter.value = getAllRelations().includes(currentVal) ? currentVal : '';
+          relationFilter = relFilter.value;
+        }
+      }
+
+      function getFilteredRecordsForList() {
+        let result = [...records];
+        if (relationFilter) result = result.filter(r => (r.relation || '其他') === relationFilter);
+        if (searchQuery.trim()) {
+          const q = searchQuery.trim().toLowerCase();
+          result = result.filter(r => (r.name||'').toLowerCase().includes(q) || (r.note||'').toLowerCase().includes(q));
+        }
+        if (chartFilter) {
+          const {type, value} = chartFilter;
+          result = result.filter(r => (r[type] || '其他') === value);
+        }
+        if (sortBy === 'date') { result.sort((a,b) => (b.date||'').localeCompare(a.date||'')); }
+        else { result.sort((a,b) => parseFloat(b.amount||0) - parseFloat(a.amount||0)); }
+        return result;
+      }
+
+      function getChartRecords() { return chartYear === 'all' ? records : records.filter(r => (r.date || '').startsWith(chartYear)); }
+      function aggregate(recs, groupKey, typeFilter) {
+        const filtered = typeFilter ? recs.filter(r => r.type === typeFilter) : recs;
+        const groups = {};
+        filtered.forEach(r => { const key = r[groupKey] || '其他'; groups[key] = (groups[key] || 0) + parseFloat(r.amount || 0); });
+        return groups;
+      }
+
+      function updateChart() {
+        const ctx = document.getElementById('chartCanvas').getContext('2d');
+        if(chartInstance){ chartInstance.destroy(); chartInstance = null; }
+        const chartRecords = getChartRecords();
+        if(!chartRecords.length) return;
+
+        const colors = ['#FF6B6B','#4ECDC4','#45B7D1','#FFD166','#A56CBD','#6C9BD2','#FF8A5C','#73C7A7','#C4A6FF','#F5A3C7'];
+        const clickHandler = (type, value) => { chartFilter = {type, value}; render(); };
+        const baseOptions = { responsive: true, maintainAspectRatio: false, plugins: {} };
+
+        if(chartType === 'trend'){
+          const year = chartYear === 'all' ? new Date().getFullYear().toString() : chartYear;
+          const monthly = {};
+          for(let i=1;i<=12;i++) monthly[i]={out:0,in:0};
+          chartRecords.forEach(r => {
+            const d = r.date; if(!d) return;
+            const parts = d.split('-'); if(parts.length<2) return;
+            const y=parts[0], m=parseInt(parts[1],10);
+            if(chartYear!=='all' && y!==chartYear) return;
+            if(!monthly[m]) return;
+            if(r.type==='支出') monthly[m].out += parseFloat(r.amount||0);
+            else monthly[m].in += parseFloat(r.amount||0);
+          });
+          const labels=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+          chartInstance = new Chart(ctx, { type: 'line', data: { labels, datasets: [
+            { label:'支出', data: Array.from({length:12},(_,i)=>monthly[i+1].out), borderColor:'#E57373', backgroundColor:'rgba(229,115,115,0.1)', tension:0.3, pointRadius:3 },
+            { label:'收入', data: Array.from({length:12},(_,i)=>monthly[i+1].in), borderColor:'#81C784', backgroundColor:'rgba(129,199,132,0.1)', tension:0.3, pointRadius:3 }
+          ] }, options: { ...baseOptions, onClick: (e,el) => {
+            if(el.length>0){ const idx=el[0].index; const prefix=`${chartYear==='all'?new Date().getFullYear():chartYear}-${String(idx+1).padStart(2,'0')}`; chartFilter=null; searchQuery=prefix; document.getElementById('searchInput').value=prefix; render(); }
+            else { chartFilter=null; searchQuery=''; document.getElementById('searchInput').value=''; render(); }
+          }}});
+        } else if(chartType === 'compare'){
+          const groupKey = chartDimension;
+          const outGroups = aggregate(chartRecords, groupKey, '支出');
+          const inGroups = aggregate(chartRecords, groupKey, '收入');
+          const allKeys = [...new Set([...Object.keys(outGroups),...Object.keys(inGroups)])].sort();
+          chartInstance = new Chart(ctx, { type: 'bar', data: { labels: allKeys, datasets: [
+            { label:'支出', data: allKeys.map(k=>outGroups[k]||0), backgroundColor:'#c37b6d' },
+            { label:'收入', data: allKeys.map(k=>inGroups[k]||0), backgroundColor:'#5f9b8c' }
+          ] }, options: { ...baseOptions, onClick: (e,el) => { if(el.length>0){ clickHandler(chartDimension, allKeys[el[0].index]); } else { chartFilter=null; render(); } } } });
+        } else {
+          const typeFilter = chartType === 'out' ? '支出' : '收入';
+          const groups = aggregate(chartRecords, chartDimension, typeFilter);
+          const labels = Object.keys(groups);
+          const data = Object.values(groups);
+          if(!labels.length) return;
+          chartInstance = new Chart(ctx, { type: 'pie', data: { labels, datasets: [{ data, backgroundColor: colors.slice(0,labels.length), borderWidth: 3, borderColor: 'rgba(255,255,255,0.8)' }] }, options: {
+            ...baseOptions,
+            plugins: { legend: { position: 'bottom', labels: { boxWidth:12, font:{size:11}, generateLabels: function(chart) {
+              const data = chart.data;
+              if (data.labels.length && data.datasets.length) {
+                return data.labels.map((label, i) => {
+                  const meta = chart.getDatasetMeta(0);
+                  const style = meta.controller.getStyle(i);
+                  return { text: `${label} ¥${data.datasets[0].data[i].toFixed(0)}`, fillStyle: style.backgroundColor, strokeStyle: style.borderColor, lineWidth: style.borderWidth, hidden: isNaN(data.datasets[0].data[i]) || meta.data[i].hidden, index: i };
+                });
+              }
+              return [];
+            }}}},
+            onClick: (e, el) => { if(el.length > 0){ clickHandler(chartDimension, labels[el[0].index]); } else { chartFilter = null; render(); } }
+          }});
+        }
+      }
+
+      function updateYearSelect() {
+        const select = document.getElementById('chartYear');
+        const years = new Set(records.map(r => (r.date||'').substring(0,4)).filter(y=>y));
+        const current = select.value;
+        select.innerHTML = '<option value="all">全部年份</option>';
+        [...years].sort().reverse().forEach(y => { const o = document.createElement('option'); o.value=y; o.textContent=y+'年'; select.appendChild(o); });
+        select.value = [...select.options].some(o=>o.value===current) ? current : 'all';
+        chartYear = select.value;
+      }
+
+      function render() {
+        const totalOut = records.filter(r=>r.type==='支出').reduce((s,r)=>s+parseFloat(r.amount||0),0);
+        const totalIn = records.filter(r=>r.type==='收入').reduce((s,r)=>s+parseFloat(r.amount||0),0);
+        document.getElementById('totalOut').textContent = '¥'+totalOut.toFixed(0);
+        document.getElementById('totalIn').textContent = '¥'+totalIn.toFixed(0);
+        document.getElementById('totalBalance').textContent = (totalIn-totalOut>=0?'¥':'-¥')+Math.abs(totalIn-totalOut).toFixed(0);
+
+        const filtered = getFilteredRecordsForList();
+        let titleText = '全部记录';
+        if (relationFilter) titleText = `${relationFilter}`;
+        if (chartFilter) titleText = `筛选结果`;
+        if (searchQuery.trim()) titleText = `搜索结果`;
+        document.getElementById('listTitle').textContent = `${titleText} (${filtered.length})`;
+
+        document.getElementById('sortDateBtn').classList.toggle('active', sortBy === 'date');
+        document.getElementById('sortAmountBtn').classList.toggle('active', sortBy === 'amount');
+
+        const filterEl = document.getElementById('activeFilter');
+        if(chartFilter){
+          filterEl.innerHTML = `<span class="filter-tag">${chartFilter.type==='category'?'分类':'关系'}: ${chartFilter.value} <span class="clear-filter" id="clearChartFilter">×</span></span>`;
+          document.getElementById('clearChartFilter').addEventListener('click',()=>{ chartFilter=null; render(); });
+        } else filterEl.innerHTML = '';
+
+        const listEl = document.getElementById('recordList');
+        if(!filtered.length){
+          listEl.innerHTML = records.length === 0 ? '<div class="empty-state">记下第一笔人情吧</div>' : '<div class="empty-state">没有找到记录</div>';
+        } else {
+          listEl.innerHTML = filtered.map(r => {
+            const idx = records.indexOf(r), isOut = r.type === '支出';
+            return `<div class="record-item"><div class="record-icon">${isOut?'💸':'💰'}</div><div class="record-main"><div class="record-name-row"><span class="record-name" data-person="${escHtml(r.name||'')}">${escHtml(r.name)}</span><span class="tag tag-relation">${escHtml(r.relation)}</span><span class="tag-type ${isOut?'tag-out':'tag-in'}">${escHtml(r.type)}</span></div><div class="record-meta">${r.date||''} · ${escHtml(r.category)}${r.note?' · '+escHtml(r.note):''}</div></div><div class="record-amount ${isOut?'out':'in'}">${isOut?'-':'+'}¥${parseFloat(r.amount||0).toFixed(0)}</div><div class="record-actions"><button class="record-edit" data-index="${idx}">✏️</button><button class="record-delete" data-index="${idx}">×</button></div></div>`;
+          }).join('');
+          document.querySelectorAll('.record-delete').forEach(btn => btn.addEventListener('click', async ()=>{
+            const idx = parseInt(btn.dataset.index);
+            if (await showConfirm('确定删除这条记录吗？', true)) {
+              records.splice(idx,1); saveRecords(); updateYearSelect(); render(); updateChart();
+            }
+          }));
+          document.querySelectorAll('.record-edit').forEach(btn => btn.addEventListener('click',()=> openEditModal(parseInt(btn.dataset.index))));
+          document.querySelectorAll('.record-name').forEach(el => el.addEventListener('click',()=> openPersonModal(el.dataset.person)));
+        }
+        updateYearSelect();
+        updateChart();
+      }
+
+      function escHtml(text){ const map={'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}; return String(text).replace(/[&<>"']/g, m=>map[m]); }
+
+      function addRecord(){
+        const name=document.getElementById('inputName').value.trim(), amount=document.getElementById('inputAmount').value.trim(), date=document.getElementById('inputDate').value;
+        if(!name||!amount||!date){ alert('请填写姓名、金额和日期'); return; }
+        records.push({ type:document.getElementById('inputType').value, relation:document.getElementById('inputRelation').value, name, amount:parseFloat(amount), category:document.getElementById('inputCategory').value, date, note:document.getElementById('inputNote').value.trim() });
+        saveRecords(); render();
+        document.getElementById('inputName').value=''; document.getElementById('inputAmount').value=''; document.getElementById('inputNote').value=''; hideSuggest();
+      }
+
+      function getUniqueNames(){ const map=new Map(); [...records].reverse().forEach(r=>{ if(!map.has(r.name)) map.set(r.name,{relation:r.relation,category:r.category}); }); return map; }
+      function showSuggest(filter=''){
+        const list=document.getElementById('suggestList'); const names=getUniqueNames();
+        if(names.size===0){ list.classList.remove('show'); return; }
+        let filtered=[...names].filter(([n])=>n.includes(filter)); if(!filtered.length){ list.classList.remove('show'); return; }
+        list.innerHTML=filtered.map(([n,info])=>`<div class="suggest-item" data-name="${escHtml(n)}" data-relation="${escHtml(info.relation)}" data-category="${escHtml(info.category)}"><span>${escHtml(n)}</span><span class="suggest-relation">${escHtml(info.relation)} · ${escHtml(info.category)}</span></div>`).join('');
+        list.classList.add('show');
+      }
+      function hideSuggest(){ document.getElementById('suggestList').classList.remove('show'); }
+      function selectSuggest(name,rel,cat){ document.getElementById('inputName').value=name; document.getElementById('inputRelation').value=rel; document.getElementById('inputCategory').value=cat; hideSuggest(); document.getElementById('inputAmount').focus(); }
+
+      function openEditModal(index){
+        const r=records[index]; if(!r) return; editIndex=index;
+
+        // 修复：给“类型”下拉框添加选项，并选中当前值
+        const editTypeSelect = document.getElementById('editType');
+        editTypeSelect.innerHTML = '<option value="支出">支出</option><option value="收入">收入</option>';
+        editTypeSelect.value = r.type;
+
+        document.getElementById('editName').value = r.name;
+        document.getElementById('editAmount').value = r.amount;
+        document.getElementById('editDate').value = r.date;
+        document.getElementById('editNote').value = r.note || '';
+
+        populateSelect('editCategory', getAllCategories(), r.category);
+        populateSelect('editRelation', getAllRelations(), r.relation);
+
+        document.getElementById('editModal').classList.add('active');
+      }
+      function closeEditModal(){ document.getElementById('editModal').classList.remove('active'); editIndex=-1; }
+      function saveEdit(){
+        if(editIndex<0) return;
+        const name=document.getElementById('editName').value.trim(), amount=document.getElementById('editAmount').value.trim(), date=document.getElementById('editDate').value;
+        if(!name||!amount||!date){ alert('请填写完整'); return; }
+        records[editIndex]={ type:document.getElementById('editType').value, relation:document.getElementById('editRelation').value, name, amount:parseFloat(amount), category:document.getElementById('editCategory').value, date, note:document.getElementById('editNote').value.trim() };
+        saveRecords(); render(); closeEditModal();
+      }
+
+      function openPersonModal(name){
+        const personRecords=records.filter(r=>r.name===name); if(!personRecords.length) return;
+        currentPersonName = name;
+        const totalOut=personRecords.filter(r=>r.type==='支出').reduce((s,r)=>s+parseFloat(r.amount||0),0);
+        const totalIn=personRecords.filter(r=>r.type==='收入').reduce((s,r)=>s+parseFloat(r.amount||0),0);
+        document.getElementById('personTitle').textContent=`👤 ${name}`;
+        document.getElementById('personOut').textContent='¥'+totalOut.toFixed(0); document.getElementById('personIn').textContent='¥'+totalIn.toFixed(0);
+        document.getElementById('personBalance').textContent=(totalIn-totalOut>=0?'¥':'-¥')+Math.abs(totalIn-totalOut).toFixed(0);
+        const currentRelation = personRecords[0]?.relation || '其他';
+        populateSelect('personNewRelation', getAllRelations(), currentRelation);
+        document.getElementById('personRecords').innerHTML=[...personRecords].sort((a,b)=>(b.date||'').localeCompare(a.date||'')).map(r=>{
+          const isOut=r.type==='支出';
+          return `<div class="mini-record"><div><strong>${r.date}</strong> · ${r.category} ${r.note?escHtml(r.note):''}</div><div style="color:${isOut?'var(--out-color)':'var(--in-color)'}; font-weight:700;">${isOut?'-':'+'}¥${parseFloat(r.amount||0).toFixed(0)}</div></div>`;
+        }).join('');
+        document.getElementById('personModal').classList.add('active');
+      }
+
+      function updatePersonRelation() {
+        if (!currentPersonName) return;
+        const newRelation = document.getElementById('personNewRelation').value;
+        records.forEach(r => { if (r.name === currentPersonName) r.relation = newRelation; });
+        saveRecords(); render(); openPersonModal(currentPersonName);
+      }
+
+      async function clearAllData() {
+        if (await showConfirm('确定要清空所有记录吗？此操作不可恢复！', true)) {
+          records = [];
+          saveRecords();
+          render();
+          updateChart();
+        }
+      }
+
+      function exportCSV(){
+        if(!records.length){ alert('无数据'); return; }
+        const header='类型,关系,姓名,金额,分类,日期,备注';
+        const lines=records.map(r=>[r.type,r.relation,r.name,r.amount,r.category,r.date,r.note||''].map(f=>String(f).includes(',')||String(f).includes('"')?'"'+String(f).replace(/"/g,'""')+'"':f).join(','));
+        const csv='\uFEFF'+header+'\n'+lines.join('\n');
+        const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'}); const a=document.createElement('a');
+        a.href=URL.createObjectURL(blob); a.download='礼尚往来_'+new Date().toISOString().slice(0,10)+'.csv'; a.click();
+      }
+
+      async function importCSV(file) {
+        const reader = new FileReader();
+        reader.onload = async e => {
+          let text = e.target.result;
+          if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+          const recordsLines = [];
+          let currentLine = '';
+          let inQuotes = false;
+          for (let i = 0; i < text.length; i++) {
+            const ch = text[i];
+            if (ch === '"') { if (inQuotes && text[i + 1] === '"') { currentLine += '""'; i++; continue; } inQuotes = !inQuotes; currentLine += ch; }
+            else if (ch === '\n' && !inQuotes) { recordsLines.push(currentLine); currentLine = ''; }
+            else if (ch === '\r' && !inQuotes) { if (text[i + 1] === '\n') { recordsLines.push(currentLine); currentLine = ''; i++; } else { recordsLines.push(currentLine); currentLine = ''; } }
+            else { currentLine += ch; }
+          }
+          if (currentLine.trim() !== '') recordsLines.push(currentLine);
+          if (recordsLines.length < 2) { alert('文件为空或格式错误'); return; }
+          const headerLine = recordsLines[0];
+          const headers = parseCSVLine(headerLine);
+          const idxMap = {};
+          headers.forEach((h, i) => { const key = h.trim(); if (key) idxMap[key] = i; });
+          const newRecords = [];
+          for (let r = 1; r < recordsLines.length; r++) {
+            const rawLine = recordsLines[r];
+            if (!rawLine.trim()) continue;
+            const fields = parseCSVLine(rawLine);
+            let type, relation, name, amountStr, category, date, note;
+            if (Object.keys(idxMap).length >= 6) {
+              name = fields[idxMap['姓名']] || fields[idxMap['对方姓名']] || '';
+              amountStr = fields[idxMap['金额']] || '';
+              date = fields[idxMap['日期']] || '';
+              type = fields[idxMap['类型']] || '支出';
+              relation = fields[idxMap['关系']] || '其他';
+              category = fields[idxMap['分类']] || '其他';
+              note = fields[idxMap['备注']] || '';
+            } else {
+              if (fields.length < 6) continue;
+              type = fields[0] || '支出'; relation = fields[1] || '其他'; name = fields[2] || '';
+              amountStr = fields[3] || ''; category = fields[4] || '其他'; date = fields[5] || ''; note = fields[6] || '';
+            }
+            if (!name || !amountStr || !date) continue;
+            const amount = parseFloat(amountStr);
+            if (isNaN(amount)) continue;
+            if (!/^\d{4}[-\/]\d{1,2}[-\/]\d{1,2}$/.test(date.trim())) continue;
+            newRecords.push({ type: type || '支出', relation: relation || '其他', name: name.trim(), amount, category: category || '其他', date: date.trim(), note: note ? note.trim() : '' });
+          }
+          if (newRecords.length === 0) { alert('无有效记录'); return; }
+          const merge = await showConfirm(`导入 ${newRecords.length} 条记录？\n确定合并，取消覆盖现有数据`);
+          if (merge) { records = records.concat(newRecords); } else { records = newRecords; }
+          saveRecords(); render(); updateChart(); alert('导入成功');
+        };
+        reader.readAsText(file, 'UTF-8');
+      }
+
+      function parseCSVLine(line) {
+        const fields = [];
+        let current = '';
+        let inQuotes = false;
+        for (let i = 0; i < line.length; i++) {
+          const ch = line[i];
+          if (inQuotes) { if (ch === '"') { if (line[i + 1] === '"') { current += '"'; i++; } else inQuotes = false; } else current += ch; }
+          else { if (ch === '"') inQuotes = true; else if (ch === ',') { fields.push(current); current = ''; } else current += ch; }
+        }
+        fields.push(current);
+        return fields;
+      }
+
+      function loadTheme() {
+        currentTheme = localStorage.getItem('appTheme') || 'light';
+        lastLightTheme = localStorage.getItem('lastLightTheme') || 'light';
+        if (!allThemes.includes(currentTheme)) currentTheme = 'light';
+        if (!allThemes.includes(lastLightTheme)) lastLightTheme = 'light';
+        applyTheme();
+      }
+      function applyTheme() {
+        document.body.setAttribute('data-theme', currentTheme);
+        const isDark = darkThemes.includes(currentTheme);
+        document.getElementById('themeToggle').textContent = isDark ? '🌙' : '☀️';
+        document.querySelectorAll('.style-option').forEach(opt => {
+          opt.classList.toggle('active', opt.dataset.theme === currentTheme && !darkThemes.includes(currentTheme));
+        });
+        localStorage.setItem('appTheme', currentTheme);
+      }
+      function toggleDarkMode() {
+        const isDark = darkThemes.includes(currentTheme);
+        if (isDark) {
+          currentTheme = lastLightTheme;
+        } else {
+          lastLightTheme = currentTheme;
+          currentTheme = 'dark';
+          localStorage.setItem('lastLightTheme', lastLightTheme);
+        }
+        applyTheme();
+      }
+      function setTheme(theme) {
+        if (!allThemes.includes(theme) || darkThemes.includes(theme)) return;
+        currentTheme = theme;
+        lastLightTheme = theme;
+        localStorage.setItem('lastLightTheme', lastLightTheme);
+        applyTheme();
+        document.getElementById('stylePanel').classList.remove('show');
+      }
+
+      function renderTagManager(){
+        const catContainer=document.getElementById('categoryTags'), relContainer=document.getElementById('relationTags');
+        const allCats=getAllCategories(), allRels=getAllRelations();
+        catContainer.innerHTML=allCats.map(c=>`<span style="background:${defaultCategories.includes(c)?'#eee':'#dce9f0'}; padding:4px 10px; border-radius:12px; font-size:13px; display:inline-flex; align-items:center; gap:4px;">${c} ${!defaultCategories.includes(c)?`<button data-cat="${c}" class="del-cat" style="border:none;background:none;cursor:pointer;font-size:16px;">×</button>`:''}</span>`).join('');
+        relContainer.innerHTML=allRels.map(r=>`<span style="background:${defaultRelations.includes(r)?'#eee':'#dce9f0'}; padding:4px 10px; border-radius:12px; font-size:13px; display:inline-flex; align-items:center; gap:4px;">${r} ${!defaultRelations.includes(r)?`<button data-rel="${r}" class="del-rel" style="border:none;background:none;cursor:pointer;font-size:16px;">×</button>`:''}</span>`).join('');
+      }
+      function addCustomCategory(){ const val=document.getElementById('newCategory').value.trim(); if(!val) return; if(!customCategories.includes(val)) customCategories.push(val); saveSettings(); refreshTagSelectors(); renderTagManager(); document.getElementById('newCategory').value=''; }
+      function addCustomRelation(){ const val=document.getElementById('newRelation').value.trim(); if(!val) return; if(!customRelations.includes(val)) customRelations.push(val); saveSettings(); refreshTagSelectors(); renderTagManager(); document.getElementById('newRelation').value=''; }
+
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('sw.js').catch(() => {});
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        loadRecords(); loadSettings(); loadTheme(); refreshTagSelectors();
+        document.getElementById('inputDate').value = new Date().toISOString().slice(0,10);
+        render();
+        document.getElementById('addBtn').addEventListener('click', addRecord);
+        document.getElementById('exportBtn').addEventListener('click', exportCSV);
+        document.getElementById('importBtn').addEventListener('click', ()=>document.getElementById('importFile').click());
+        document.getElementById('clearBtn').addEventListener('click', clearAllData);
+        document.getElementById('importFile').addEventListener('change', e=>{ if(e.target.files[0]){ importCSV(e.target.files[0]); e.target.value=''; } });
+        document.getElementById('searchInput').addEventListener('input', e=>{ searchQuery=e.target.value; chartFilter=null; render(); });
+        document.getElementById('themeToggle').addEventListener('click', toggleDarkMode);
+        document.getElementById('styleSelectBtn').addEventListener('click', (e) => {
+          e.stopPropagation();
+          document.getElementById('stylePanel').classList.toggle('show');
+        });
+        document.addEventListener('click', (e) => {
+          const panel = document.getElementById('stylePanel');
+          if (!panel.contains(e.target) && e.target !== document.getElementById('styleSelectBtn')) {
+            panel.classList.remove('show');
+          }
+        });
+        document.querySelectorAll('.style-option').forEach(opt => {
+          opt.addEventListener('click', (e) => { setTheme(e.target.dataset.theme); });
+        });
+
+        document.getElementById('dimTabs').addEventListener('click', e=>{ if(e.target.classList.contains('chart-dim-tab')){ chartDimension=e.target.dataset.dim; chartFilter=null; document.querySelectorAll('.chart-dim-tab').forEach(t=>t.classList.toggle('active',t.dataset.dim===chartDimension)); updateChart(); render(); } });
+        document.querySelector('.chart-type-tabs').addEventListener('click', e=>{ if(e.target.classList.contains('chart-type-tab')){ chartType=e.target.dataset.type; chartFilter=null; document.querySelectorAll('.chart-type-tab').forEach(t=>t.classList.toggle('active',t.dataset.type===chartType)); updateChart(); render(); } });
+        document.getElementById('chartYear').addEventListener('change', e=>{ chartYear=e.target.value; chartFilter=null; updateChart(); render(); });
+        const nameInput=document.getElementById('inputName');
+        nameInput.addEventListener('input', ()=>showSuggest(nameInput.value.trim()));
+        nameInput.addEventListener('focus', ()=>showSuggest(nameInput.value.trim()));
+        nameInput.addEventListener('blur', ()=>setTimeout(hideSuggest,150));
+        document.getElementById('suggestList').addEventListener('mousedown', e=>{ e.preventDefault(); const item=e.target.closest('.suggest-item'); if(item) selectSuggest(item.dataset.name, item.dataset.relation, item.dataset.category); });
+        document.querySelectorAll('.quick-amount').forEach(btn=>btn.addEventListener('click',()=>{ document.getElementById('inputAmount').value=btn.dataset.amount; document.getElementById('inputAmount').focus(); }));
+        document.getElementById('cancelEdit').addEventListener('click', closeEditModal);
+        document.getElementById('saveEdit').addEventListener('click', saveEdit);
+        document.getElementById('editModal').addEventListener('click', e=>{ if(e.target===document.getElementById('editModal')) closeEditModal(); });
+        document.getElementById('closePersonBtn').addEventListener('click', ()=>{ document.getElementById('personModal').classList.remove('active'); currentPersonName = ''; });
+        document.getElementById('personModal').addEventListener('click', e=>{ if(e.target===document.getElementById('personModal')) { document.getElementById('personModal').classList.remove('active'); currentPersonName = ''; } });
+        document.getElementById('updatePersonRelation').addEventListener('click', updatePersonRelation);
+        document.getElementById('manageTagsBtn').addEventListener('click', ()=>{ renderTagManager(); document.getElementById('tagsModal').classList.add('active'); });
+        document.getElementById('closeTagsBtn').addEventListener('click', ()=>document.getElementById('tagsModal').classList.remove('active'));
+        document.getElementById('tagsModal').addEventListener('click', e=>{ if(e.target===document.getElementById('tagsModal')) document.getElementById('tagsModal').classList.remove('active'); });
+        document.getElementById('addCategoryBtn').addEventListener('click', addCustomCategory);
+        document.getElementById('addRelationBtn').addEventListener('click', addCustomRelation);
+        document.getElementById('categoryTags').addEventListener('click', e=>{ if(e.target.classList.contains('del-cat')){ customCategories=customCategories.filter(c=>c!==e.target.dataset.cat); saveSettings(); refreshTagSelectors(); renderTagManager(); render(); } });
+        document.getElementById('relationTags').addEventListener('click', e=>{ if(e.target.classList.contains('del-rel')){ customRelations=customRelations.filter(r=>r!==e.target.dataset.rel); saveSettings(); refreshTagSelectors(); renderTagManager(); render(); } });
+
+        document.getElementById('relationFilter').addEventListener('change', e => { relationFilter = e.target.value; chartFilter = null; render(); });
+        document.getElementById('sortDateBtn').addEventListener('click', () => { sortBy = 'date'; render(); });
+        document.getElementById('sortAmountBtn').addEventListener('click', () => { sortBy = 'amount'; render(); });
+      });
+    })();
+  </script>
+</body>
+</html>
