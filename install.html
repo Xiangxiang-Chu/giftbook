@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>礼尚往来 - 安装引导</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      background: #f5f5f7;
+      color: #1d1d1f;
+      display: flex; justify-content: center; padding: 24px 16px;
+    }
+    .container {
+      max-width: 420px; width: 100%;
+      background: white; border-radius: 28px; padding: 32px 24px;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.06);
+      text-align: center;
+    }
+    .app-icon { font-size: 64px; margin-bottom: 16px; }
+    .app-name { font-size: 24px; font-weight: 700; margin-bottom: 8px; background: linear-gradient(135deg, #5b7b94, #7a9eb1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .subtitle { color: #86868b; font-size: 14px; margin-bottom: 28px; }
+    .step { background: #f9f9fb; border-radius: 16px; padding: 16px; margin-bottom: 12px; text-align: left; display: flex; gap: 12px; align-items: flex-start; }
+    .step-number { background: #5b7b94; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; }
+    .step-content h4 { font-size: 14px; margin-bottom: 4px; color: #1d1d1f; }
+    .step-content p { font-size: 13px; color: #86868b; line-height: 1.5; }
+    .safe-notice { background: #fff3cd; border-radius: 12px; padding: 12px 16px; margin: 16px 0; text-align: left; font-size: 13px; color: #856404; line-height: 1.6; }
+    .safe-notice strong { display: block; margin-bottom: 4px; }
+    .btn-download {
+      display: block; width: 100%;
+      background: linear-gradient(135deg, #5b7b94, #7a9eb1);
+      color: white; border: none; padding: 16px; border-radius: 16px;
+      font-size: 17px; font-weight: 700; cursor: pointer; margin-top: 20px;
+      text-decoration: none; box-shadow: 0 8px 20px rgba(91,123,148,0.3);
+    }
+    .btn-download:active { opacity: 0.9; transform: scale(0.98); }
+    .footer { margin-top: 20px; font-size: 12px; color: #b0b0b8; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="app-icon">🎋</div>
+    <div class="app-name">礼尚往来</div>
+    <div class="subtitle">轻松优雅地管理人情往来</div>
+
+    <div class="step">
+      <div class="step-number">1</div>
+      <div class="step-content">
+        <h4>下载安装包</h4>
+        <p>点击下方“下载安装包”按钮，下载完成后点击安装。</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-number">2</div>
+      <div class="step-content">
+        <h4>安全提示说明</h4>
+        <p>安装时手机可能提示“未备案应用”或“存在风险”，请放心点击“继续安装”。本软件为纯本地记账工具，数据只保存在手机内，不会收集任何个人信息。</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-number">3</div>
+      <div class="step-content">
+        <h4>开始使用</h4>
+        <p>安装完成后，桌面会出现“礼尚往来”图标，点击即可开始记账。</p>
+      </div>
+    </div>
+
+    <div class="safe-notice">
+      <strong>🛡️ 隐私承诺</strong>
+      本应用为纯本地运行，无需联网，不注册账号，不上传任何数据。你的每一笔人情往来，只保存在你自己的手机里。
+    </div>
+
+    <a class="btn-download" href="礼尚往来.apk" download>📥 下载安装包</a>
+    <div class="footer">如有问题，请联系开发者</div>
+  </div>
+</body>
+</html>
