@@ -7,7 +7,11 @@
   "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#5b7b94",
+  "lang": "zh-CN",
+  "dir": "ltr",
+  "id": "礼尚往来",
   "categories": ["finance", "lifestyle"],
+  "screenshots": [],
   "icons": [
     {
       "src": "icon-192.png",
