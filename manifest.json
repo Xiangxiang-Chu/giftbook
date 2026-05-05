@@ -1,7 +1,7 @@
 {
   "name": "礼尚往来",
   "short_name": "礼尚往来",
-  "description": "轻松优雅地管理人情往来，记录每一份心意。",
+  "description": "帮你记住那些，不好意思忘记的人情。",
   "start_url": ".",
   "display": "standalone",
   "orientation": "portrait",
